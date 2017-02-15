@@ -4,6 +4,7 @@
 # Tested succesfull on Ubuntu Gnome 16.04 x64 with ASUS computer.
 # This script is supposed to be called from a cron job.
 # If you change this script's name/path, don't forget to update it in crontab.
+# Credit to Anmol-Singh-Jaggi on GitHub
 
 # Required for notify-send to work
 eval "export $(egrep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $LOGNAME gnome-session)/environ)";
