@@ -1,15 +1,16 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Notifies the user if the battery is low.
-# Executes some command (like hibernate) on critical battery.
+# Notifies the user if the battery is low then poweroff when critical.
+# Tested succesfull on Ubuntu Gnome 16.04 x64 with ASUS computer.
 # This script is supposed to be called from a cron job.
-# If you change this script's name/path, don't forget to update it in crontab !!
+# If you change this script's name/path, don't forget to update it in crontab.
 
 # Required for notify-send to work
 eval "export $(egrep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pgrep -u $LOGNAME gnome-session)/environ)";
 
-level=$(cat /sys/class/power_supply/BAT1/capacity)
-status=$(cat /sys/class/power_supply/BAT1/status)
+# BAT0 with Ubuntu 16.04
+level=$(cat /sys/class/power_supply/BAT0/capacity)
+status=$(cat /sys/class/power_supply/BAT0/status)
 
 # Exit if not discharging
 if [ "${status}" != "Discharging" ]; then
