@@ -4,14 +4,14 @@
 #
 # First ensure that you can hibernate non-interactively from cron without sudo :
 # Execute : sudo visudo -f /etc/sudoers.d/custom
-# Enter the following into the buffer :
+# Enter the following into the buffer and saved it :
 #     #Enable hibernation from cron
 #     YourUserLogin ALL=NOPASSWD: /bin/systemctl hibernate
 #
 # Then, schedule it via cron :
 #    chmod +x auto-poweroff.sh
 #    sudo crontab -e
-#    Add at the enf of cron, execute every minute :
+#    Add at the enf to execute every minute :
 #    * * * * * /path/to/auto-poweroff.sh.
 #
 # Tested succesfull on Ubuntu Gnome 16.04 x64 with ASUS computer.
