@@ -1,6 +1,19 @@
 #!/bin/bash
 
 # Notifies the user if the battery is low then poweroff when critical.
+#
+# First ensure that you can hibernate non-interactively from cron without sudo :
+# Execute : sudo visudo -f /etc/sudoers.d/custom
+# Enter the following into the buffer :
+#     #Enable hibernation from cron
+#     YourUserLogin ALL=NOPASSWD: /bin/systemctl hibernate
+#
+# Then, schedule it via cron :
+#    chmod +x auto-poweroff.sh
+#    sudo crontab -e
+#    Add at the enf of cron, execute every minute :
+#    * * * * * /path/to/auto-poweroff.sh.
+#
 # Tested succesfull on Ubuntu Gnome 16.04 x64 with ASUS computer.
 # This script is supposed to be called from a cron job.
 # If you change this script's name/path, don't forget to update it in crontab.
@@ -31,7 +44,7 @@ if [ "${level}" -le ${action_percentage} ]; then
   notify-send "Warning, Linux will be poweroff because battery is too low: ${level}%" -t 15
   sleep 5
   # Sudo is required when running from cron
-  sudo systemctl poweroff
+  sudo systemctl hibernate
   exit 0
 fi
 
