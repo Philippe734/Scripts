@@ -30,7 +30,8 @@ action_percentage=8
 if [ "${level}" -le ${action_percentage} ]; then  
   notify-send "Warning, Linux will be poweroff because battery is too low: ${level}%" -t 15
   sleep 5
-  systemctl poweroff
+  # Sudo is required in cron
+  sudo systemctl poweroff
   exit 0
 fi
 
