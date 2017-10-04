@@ -1,2 +1,2 @@
 # snippets
-Small programs used frequently by me.
+Some scripts used frequently by me and maybe usefull for some people.
