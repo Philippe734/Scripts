@@ -1,9 +1,11 @@
 #!/bin/bash
 
-# Run this script at startup of the system
-# This script allow you to run commands when you're right clicking on edge of screen
-# 2016
-
+# Allow to run commands when click on edge of screen.
+# Run this script at startup of the system.
+# Tested and works fine on Ubuntu 14.04 and 16.04
+# Require xinput and xdotool :
+# $ sudo apt install xinput xdotool -y
+# Credit to dessert from stackexchange
 
 MOUSE_ID=10 # device XID, run xinput without any option to get a list of devices and their IDs
 interval=0.1 # sleep interval between tests in seconds
@@ -20,6 +22,10 @@ Yaxis=$(xrandr --current | grep '*' | uniq | awk '{print $1}' | cut -d 'x' -f2)
 e1=(0 $Xaxis 0 15) # top edge
 e2=($Xaxis $Xaxis 0 $Yaxis) ; e2[0]=$(($Xaxis-15)) # right edge
 e3=(0 $Xaxis 16 $Yaxis) ; e3[1]=$(($Xaxis-16)) # whole screen except others
+
+# examples with right click on edge of screen
+# right edge : close the active window
+# top edge : run Firefox
 
 # Function to disable mouse right button
 function DisableB3 
@@ -55,7 +61,8 @@ while :; do
 	DisableB3
 	BT=$(xinput --query-state $MOUSE_ID | grep 'button\[3\]=down' | cut -d'=' -f 2 )
 	if [ "$BT" = "down" ] && [ $FLAG -eq 0 ] ; then
-		echo "### run commands for top edge ###"			
+		#echo "### run commands for top edge ###"
+		firefox
 		BT=""; FLAG=1; sleep 0.5
 	fi
   fi
@@ -65,7 +72,7 @@ while :; do
 	DisableB3
 	BT=$(xinput --query-state $MOUSE_ID | grep 'button\[3\]=down' | cut -d'=' -f 2 )
 	if [ "$BT" = "down" ] && [ $FLAG -eq 0 ] ; then
-		echo "### run commands for right edge ###"	
+		#echo "### run commands for right edge ###"	
 		xdotool key alt+F4		
 		BT=""; FLAG=1; sleep 0.5
 	fi
