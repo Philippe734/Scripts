@@ -3,6 +3,7 @@
 # Allow to run commands when click on edge of screen.
 # Run this script at startup of the system.
 # Tested and works fine on Ubuntu 14.04 and 16.04
+# v1.1 2017/10
 # Require xinput and xdotool :
 # $ sudo apt install xinput xdotool -y
 # Credit to dessert from stackexchange
