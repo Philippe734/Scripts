@@ -21,7 +21,7 @@
 # Begin of the script
 
 # Run unattended-upgrades on battery if > 70% at login
-sleep 25
+sleep 45
 
 level=$(cat /sys/class/power_supply/BAT0/capacity)
 status=$(cat /sys/class/power_supply/BAT0/status)
