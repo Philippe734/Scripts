@@ -1,5 +1,5 @@
 #!/bin/bash
-notify-send "Début traitement..." "$@"
+notify-send "Begin process..." "$@"
 avconv -i "$@" -c:v copy -c:a copy -sn "$@.mp4"
-notify-send "Terminé" "$@"
+notify-send "Over" "$@"
 
