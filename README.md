@@ -10,3 +10,6 @@ For laptop, run the unattended-upgrades if machine running on battery.
 
 ### Edges actions
 Allow to run commands when click on edge of screen
+
+### Nautilus
+Scripts for Nautilus, Caja or Nemo
