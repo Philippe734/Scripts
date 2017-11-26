@@ -1,10 +1,10 @@
 #!/bin/bash
-notify-send "Dossier..." $CAJA_SCRIPT_SELECTED_FILE_PATHS
-cd $CAJA_SCRIPT_SELECTED_FILE_PATHS
+notify-send "Folder..." $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
+cd $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
 for a in *;do
-	notify-send "Fichier..." "$a"
+	notify-send "File..." "$a"
 	avconv -i "$a" -c:v copy -c:a copy -sn "$a.mp4"
-	notify-send "$a" "Terminé"
+	notify-send "$a" "Done"
 done
-notify-send "Dossier terminé"
+notify-send "Folder done"
 
