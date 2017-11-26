@@ -1,5 +1,5 @@
 #!/bin/bash
-notify-send "Début traitement..." "$@"
+notify-send "Begin process..." "$@"
 mkvmerge -o "$@.mkv" "$@"
-notify-send "Terminé" "$@"
+notify-send "Over" "$@"
 
