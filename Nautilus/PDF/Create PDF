@@ -1,5 +1,5 @@
 #!/bin/sh
 notify-send -t 2000 "Progress..."
 libreoffice --headless --convert-to pdf "$@"
-# ajouter du code pour éviter confilt de nom
-notify-send -t 2000 "Terminé"
+# add some code to prevent conflict names
+notify-send -t 2000 "Done"
