@@ -1,4 +1,5 @@
 #!/bin/bash
+# convert all files of a folder to MP4, without encode.
 notify-send "Folder..." $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
 cd $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
 for a in *;do
