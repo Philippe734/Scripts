@@ -1,4 +1,4 @@
 #!/bin/bash
-
+# convert subtile MKS to SRT format.
 mkvextract tracks "$@" 0:"$@".srt
 
