@@ -1,0 +1,98 @@
+#!/bin/sh
+
+# Join video files (Nautilus)
+# Copyright (C) Richard H. Tingstad
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# See <http://www.gnu.org/licenses/>.
+
+# File names used to determine order
+# f2.mpg, f1.mpg, ... => f1-joined.mpg
+
+# Version 0.1.0
+# Depends on zenity and mencoder (and mplayer)
+
+title="Join"
+if [ $# -lt 2 ]
+then
+	zenity --title="$title" --error --text="You must select at least two files."
+	exit 1
+fi
+files=`echo "$NAUTILUS_SCRIPT_SELECTED_FILE_PATHS" | egrep -v '^$' | sort`
+echo "$files" | while read f
+do
+	if [ ! -f "$f" ]
+	then
+		zenity --title="$title" --error --text="'$f' is not a file."
+		exit 1
+	fi
+done
+firstfile=`echo "$files" | head -n 1`
+extension=`echo "$firstfile" | egrep -oi '\.[a-z0-9]+$'`
+basename=`basename "$firstfile" $extension`
+outfile="$basename-joined$extension"
+if [ -e "$outfile" ]
+then
+	if ! zenity --title="$title" --question --text="File '$outfile' exists, will overwrite. Continue?"
+	then
+		exit 1
+	fi
+fi
+info=`mplayer -identify -frames 0 -vc null -vo null -ao null "$firstfile"`
+demux=`echo "$info" |egrep 'ID_DEMUXER'|cut -d '=' -f2`
+video=`echo "$info" |egrep 'ID_VIDEO_FORMAT'|cut -d '=' -f2`
+audio=`echo "$info" |egrep 'ID_AUDIO_FORMAT'|cut -d '=' -f2`
+for f in "$@"
+do
+	if ! mplayer -identify -frames 0 -vc null -vo null -ao null "$f"|egrep -q "ID_VIDEO_FORMAT=$video"
+	then
+		if zenity --title="$title" --question --text="Files may have different video encodings. Try anyway?"
+		then
+			break
+		else
+			exit 1
+		fi
+	fi
+done
+params=""
+case "$demux" in
+"mpegps")
+	format="mpeg"
+	params="$params -noskip -mc 0"
+;;
+"lavfpref" | "asf")
+	format="lavf"
+;;
+*)
+	format="avi"
+;;
+esac
+case "$video" in
+"0x10000001"|"mpg1")
+	params="$params -mpegopts format=mpeg1"
+;;
+esac
+case "$audio" in #http://www.mplayerhq.hu/DOCS/codecs-status.html
+"MP4A"|"mp4a"|"AAC"|"AACP"|"racp"|"raac"|"VLB")
+	params="$params -fafmttag 0x00ff"
+;;
+esac
+arg=`echo "$files" | awk '{ printf "\"%s\" ", $0 }'`
+ok=false
+eval "mencoder -forceidx -of $format$params -oac copy -ovc copy -o \"$outfile\" $arg && ok=true"
+if $ok
+then
+	zenity --title="$title" --info --text="All done."
+else
+	zenity --title="$title" --error --text="An error occurred."
+fi
+

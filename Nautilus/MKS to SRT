@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkvextract tracks "$@" 0:"$@".srt
+
