@@ -1,0 +1,5 @@
+#!/bin/sh
+notify-send -t 2000 "Progress..."
+pdfunite "$@" Fusion.pdf
+# add some code to prevent conflict names
+notify-send -t 2000 "Done"
