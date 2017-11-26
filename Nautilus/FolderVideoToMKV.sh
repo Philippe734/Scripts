@@ -1,5 +1,6 @@
 #!/bin/bash
-notify-send "Dossier..." $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
+# convert all files in a folder to MKV without encode.
+notify-send "Folder..." $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
 cd $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
 for a in *;do
 	notify-send "File..." "$a"
