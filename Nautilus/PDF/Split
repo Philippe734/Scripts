@@ -1,4 +1,4 @@
 #!/bin/bash
 notify-send -t 2000 "Progress..."
 pdfseparate "$@" "$@"%d.pdf
-notify-send -t 2000 "Terminé"
+notify-send -t 2000 "Done"
