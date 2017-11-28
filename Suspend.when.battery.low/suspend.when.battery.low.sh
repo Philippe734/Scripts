@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Notifies the user if the battery is low then supsend when critical.
+# You can replace suspend by shutdown or hiberbate.
 #
 # First ensure that you can suspend non-interactively from cron without sudo :
 # Execute : sudo visudo -f /etc/sudoers.d/custom
