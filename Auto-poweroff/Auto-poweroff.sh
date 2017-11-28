@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Notifies the user if the battery is low then poweroff when critical.
+# Notifies the user if the battery is low then supsend when critical.
 #
-# First ensure that you can hibernate non-interactively from cron without sudo :
+# First ensure that you can suspend non-interactively from cron without sudo :
 # Execute : sudo visudo -f /etc/sudoers.d/custom
 # Enter the following into the buffer and saved it :
-#     #Enable hibernation from cron
-#     YourUserLogin ALL=NOPASSWD: /bin/systemctl hibernate
+#     # Enable suspend from cron
+#     YourUserLogin ALL=NOPASSWD: /bin/systemctl suspend
 #
 # Then, schedule it via cron :
 #    chmod +x auto-poweroff.sh
@@ -41,10 +41,10 @@ action_percentage=8
 
 
 if [ "${level}" -le ${action_percentage} ]; then  
-  notify-send "Warning, Linux will be poweroff because battery is too low: ${level}%" -t 15
+  notify-send "Warning, Linux will be suspend because battery is too low: ${level}%" -t 15
   sleep 5
   # Sudo is required when running from cron
-  sudo systemctl hibernate
+  sudo systemctl suspend
   exit 0
 fi
 
