@@ -2,8 +2,8 @@
 Some scripts used frequently by me and maybe usefull for some people.
 #
 
-### Auto power off
-For laptop, when battery low, power off (or suspend).
+### Suspend when battery low
+For laptop, when battery low, suspend. You can replace suspend with shutdown or hibernate.
 
 ### Unattended-upgrades
 For laptop, run the unattended-upgrades if machine running on battery.
