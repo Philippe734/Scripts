@@ -13,3 +13,6 @@ Allow to run commands when click on edge of screen
 
 ### Nautilus
 Scripts for Nautilus, Caja or Nemo
+
+### Alert end of support
+Alert the user when the system is at the end of support, with a message.
