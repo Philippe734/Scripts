@@ -21,7 +21,7 @@
 # Begin of the script
 
 # Run unattended-upgrades on battery if > 70% at login
-sleep 45
+sleep 60
 
 level=$(cat /sys/class/power_supply/BAT0/capacity)
 status=$(cat /sys/class/power_supply/BAT0/status)
@@ -40,4 +40,12 @@ fi
 # Update
 if [ "${level}" -ge 70 ]; then  
 	sudo apt update && sudo unattended-upgrades
+	
+	# Below, alternative with an icon notification in systray of panel, with YAD >>> sudo apt install yad
+	# MSG="Mise à jour du système en cours, n'éteignez pas l'ordinateur..."
+	# notify-send "$MSG" -t 2000
+	# doupdate () { (sudo apt update && sudo unattended-upgrades) > /dev/null; quit ; }
+	# doupdate | yad --notification --no-middle --text="$MSG" --image="system-software-update" --command="zenity --info --text \"$MSG\"" --listen
+	
+	exit 0
 fi
