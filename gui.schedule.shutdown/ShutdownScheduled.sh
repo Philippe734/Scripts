@@ -1,24 +1,24 @@
 #!/bin/bash
 # GUI to schedule shutdown with yad : sudo apt install yad
 
-sortie=$(
+out=$(
 yad --form --center --title="" --field="Shutdown":LBL \
-    --field="Heure":NUM \
+    --field="Hour":NUM \
     --field="Minutes":NUM \
     --button="Shutdown -c":1 \
-    --button="Planifier l'arrêt":2
+    --button="Schedule shutdown":2
 )
 
 ret=$?
-heure=$(echo $sortie | cut -f 2 -d '|')
-minutes=$(echo $sortie | cut -f 3 -d '|')
+hour=$(echo $out | cut -f 2 -d '|')
+minutes=$(echo $out | cut -f 3 -d '|')
 
 if [[ $ret -eq 1 ]]; then
     shutdown -c
-    notify-send "Annulé"
+    notify-send "Cancel"
 else
-    shutdown $heure:$minutes
-    notify-send "Arrrêt planifié"
+    shutdown $hour:$minutes
+    notify-send "Shutdown scheduled"
 fi
 
 exit 0
