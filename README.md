@@ -17,5 +17,8 @@ Scripts for Nautilus, Caja or Nemo
 ### Alert end of support
 Alert the user when the system is at the end of support, with a message.
 
+### GUI tool to format usb device
+Using yad to display the gui.
+
 ### VPN Demon
 For VPN : autoconnect and kill switch apps, scripts modified from https://github.com/primaryobjects/vpndemon
