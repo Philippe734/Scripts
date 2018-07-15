@@ -6,7 +6,7 @@ Some scripts used frequently by me and maybe usefull for some people.
 For laptop, when battery low, suspend. You can replace suspend with shutdown or hibernate.
 
 ### Unattended-upgrades
-For laptop, run the unattended-upgrades if machine running on battery.
+For laptop, run updates automatically and silently if machine running on battery.
 
 ### Edges actions
 Allow to run commands when click on edge of screen
