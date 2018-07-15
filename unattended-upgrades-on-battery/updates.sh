@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # Run updates automatically and silently on machine running on battery, perfect for laptop.
+# Also repair and clean packages.
 #
 # Yad is required: sudo apt install yad
 # Allow this script to be execute without prompt password with this :
 #        sudo visudo -f /etc/sudoers.d/custom
-#        UserName ALL=NOPASSWD: /path of the command to/this script
+#        UserName ALL=NOPASSWD: /path to this/script.sh
 #
 # Tested succesfull on Ubuntu 14.04, 16.04 and 18.04
 # This script is supposed to be start at login
