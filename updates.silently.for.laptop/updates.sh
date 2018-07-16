@@ -9,7 +9,7 @@
 #        UserName ALL=NOPASSWD: /path to this/script.sh
 #
 # Tested succesfull on Ubuntu 14.04, 16.04 and 18.04
-# This script is supposed to be start at login
+# This script is supposed to be start at login and run with sudo
 # Philippe734 - 2017
 
 # Begin of the script
