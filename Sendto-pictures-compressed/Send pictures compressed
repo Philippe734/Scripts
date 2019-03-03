@@ -1,5 +1,5 @@
 #!/bin/sh
-notify-send "Patientez..."
+notify-send "Process..."
 for fullfile in $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
 do
     filename="${fullfile##*/}"
@@ -7,6 +7,6 @@ do
     emailattachment="$emailattachment/tmp/$filename,"
     sleep 500ms
 done
-fichiersjoints=${emailattachment%?}
-thunderbird -compose attachment="'$fichiersjoints'"
+allfiles=${emailattachment%?}
+thunderbird -compose attachment="'$allfiles'"
 
