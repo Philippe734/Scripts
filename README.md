@@ -22,3 +22,5 @@ Using yad to display the gui.
 
 ### VPN Demon
 For VPN : autoconnect and kill switch apps, scripts modified from https://github.com/primaryobjects/vpndemon
+
+### Send by mail pictures compressed with Nautilus
