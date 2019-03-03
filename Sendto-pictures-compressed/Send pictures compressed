@@ -1,0 +1,12 @@
+#!/bin/sh
+notify-send "Patientez..."
+for fullfile in $NAUTILUS_SCRIPT_SELECTED_FILE_PATHS
+do
+    filename="${fullfile##*/}"
+    convert "$filename" -scale 50% -quality 40% /tmp/"$filename"
+    emailattachment="$emailattachment/tmp/$filename,"
+    sleep 500ms
+done
+fichiersjoints=${emailattachment%?}
+thunderbird -compose attachment="'$fichiersjoints'"
+
