@@ -24,3 +24,5 @@ Using yad to display the gui.
 For VPN : autoconnect and kill switch apps, scripts modified from https://github.com/primaryobjects/vpndemon
 
 ### Send by mail pictures compressed with Nautilus
+
+### Send by mail pictures compresses with gThumb
