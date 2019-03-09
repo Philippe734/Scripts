@@ -1,19 +1,17 @@
 #!/bin/bash
 IFS='
 '
-# paramètre %F : full path file
-# paramètre %P : full directory path
-# $@ est lié au paramètre
-yad --center --text-align=center --title="Envoyer par mail" --text="Quelle qualité ?" --button="Originale":1  --button="Moyenne":2 --button="Petite":3 ; quality=$?
+# set %F when focus the script in gThumb
+# yad is required: sudo apt install yad
+yad --center --text-align=center --title="Send by mail" --text="Which quality ?" --button="Original":1  --button="Medium":2 --button="Small":3 ; quality=$?
 
-notify-send "Patientez..."
+notify-send "Process..."
 
 printf %s "$@" |
 emailattachment=""
 for fullfile in $@
 do
-    filename="${fullfile##*/}" # nom du fichier
-    #yad --center --title="qualité" --entry-text="$quality" --entry
+    filename="${fullfile##*/}" # file name
     case "$quality" in
         1) cp "$fullfile" /tmp/"$filename" ;;
         2) convert "$fullfile" -resize 1024 -quality 80% /tmp/"$filename" ;;
@@ -21,12 +19,9 @@ do
     esac
 
     emailattachment="$emailattachment/tmp/$filename,"
-    #yad --center --title="in do" --entry-text="$emailattachment" --entry
     sleep 500ms
 done
-#yad --center --title="after do" --entry-text="$emailattachment" --entry
-fichiersjoints=${emailattachment%?} # enlève le dernier caractère, la virgule de fin
-#yad --center --title="fichierjoints" --entry-text="$fichiersjoints" --entry
+fichiersjoints=${emailattachment%?} # remove the last character, the comma at the end
 thunderbird -compose attachment="'$fichiersjoints'"
 
 exit 0
