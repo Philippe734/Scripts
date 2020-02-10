@@ -1,4 +1,4 @@
-## Script to benchmark system and display a single overall score, without promt the user.
+### Script to benchmark the system and calculate a single overall score, without prompt the user.
 ### With Sysbench using CPU, Disk IO & Memory
   ```
 ./scriptname.sh
