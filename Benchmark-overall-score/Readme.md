@@ -9,3 +9,4 @@ Memory...
 Done, overall score:
 5365478
   ```
+The calculation formula can be discussed but it's a real headache.
