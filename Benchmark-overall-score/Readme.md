@@ -1,2 +1,11 @@
-With sysbench, benchmarking system and calculate an overall score without promt user.
-CPU ; Disk IO ; Memory
+## Script to benchmark system and display a single overall score, without promt the user.
+# With Sysbench using CPU, Disk IO & Memory
+  ```
+./scriptname.sh
+Please wait...
+CPU..
+Disk IO...
+Memory...
+Done, overall score:
+5365478
+  ```
