@@ -3,7 +3,9 @@
 # CPU, Memory & Disk IO
 # 2020 - Philippe734
 
-echo "Starting with cpu, open your system monitor to watch..."
+echo "Open your system monitor to watch."
+echo "Please wait..."
+echo "CPU..."
 cpu=$(sysbench --test=cpu --cpu-max-prime=20000 --num-threads=32 run 2>/dev/null | grep "total number of events" | cut -f2 -d ":") 
 
 echo "Disk IO..."
