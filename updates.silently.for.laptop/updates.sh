@@ -24,10 +24,16 @@ endsupport=$(($Major+2003))
 aujourdhui=$(date +%s)
 cond=$(date -d $endsupport-03-01 +%s)
 
-if [ $aujourdhui -ge $cond ];
-then
+if [ $aujourdhui -ge $cond ];then
+    if [ "$DESKTOP_SESSION" == "mate" ];then
+        variante="Ubuntu Mate"
+    elif [ "$DESKTOP_SESSION" == "xubuntu" ];then
+        variante="Xubuntu"
+    else
+        variante="Ubuntu"
+    fi
 	# Informe l'uilisateur qu'Ubuntu est obsolète
-	yad --center --title=Information --image=dialog-information --text-align=left --fixed --button=OK --text="Attention\n\nVotre système Linux Ubuntu Mate (ou Xubuntu) $laversion est obsolète et périmé.\n\nIl n'y a plus de mises à jour de sécurité et vos applications ne seront plus mises à jour.\n\nVeuillez contacter votre responsable informatique, ou un geek, pour mettre à niveau vers la dernière version LTS d'Ubuntu Mate (ou Xubuntu)."
+	yad --center --title=Information --image=dialog-information --text-align=left --fixed --button=OK --text="Attention\n\nVotre système Linux $variante $laversion est obsolète et périmé.\n\nIl n'y a plus de mises à jour de sécurité et vos applications ne seront plus mises à jour.\n\nVeuillez contacter votre responsable informatique, ou un geek, pour mettre à niveau vers la dernière version LTS de $variante."
 fi
 
 
