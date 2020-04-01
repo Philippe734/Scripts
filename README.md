@@ -28,6 +28,9 @@ GUI tool to format USB device, usefull for very old persons or kids.
 ### GUI schedule shutdown
 GUI tool to set time or duration to schedule a shutdown.
 
+### Post install
+Personal script used to customize Ubuntu Mate and Xubuntu after installation.
+
 ### VPN Demon
 For VPN : autoconnect and kill switch apps, forked project.
 
