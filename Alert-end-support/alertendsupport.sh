@@ -4,6 +4,7 @@
 # Good for LTS version
 # sudo nano /opt/script/alertendsupport.sh
 # Move it in /opt/scripts/
+# Need yad >> sudo apt install yad
 # Run it at startup
 
 # Get the Major version of Ubuntu
