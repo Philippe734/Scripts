@@ -5,7 +5,7 @@
 For laptop, when battery low, suspend. Usefull when Ubuntu's energy management don't work.
 
 ### Updates silently for laptop
-Not only for laptop, for desktop too, run updates automatically and silently if machine has enough battery or on AC. Script always installed by me on every install of Ubuntu for people.
+Not only for laptop, for desktop too, run updates automatically and silently if machine has enough battery or on AC. My favorite script. It always installed by me on every install of Ubuntu for people I did.
 
 ### Edges actions
 Allow to run commands when click on edge of screen. Update : Same functionnality with a GUI in my repositories.
