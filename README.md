@@ -1,6 +1,5 @@
 # Snippets
-Scripts used frequently by me and maybe usefull for some people.
-#
+## Scripts used by me and maybe usefull for you.
 
 ### Suspend when battery low
 For laptop, when battery low, suspend. Usefull when Ubuntu's energy management don't work.
