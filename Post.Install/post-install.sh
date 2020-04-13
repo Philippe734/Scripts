@@ -10,13 +10,13 @@ FILEUSER=~/post-install-user.sh
 (
 while [ ! -x "$FILESUDO" ]; do
     rm $FILESUDO
-    wget https://www.dropbox.com/s/mzaqopg7q66qhtx/post-install-sudo.sh -P ~
+    wget https://www.dropbox.com/s/mydropboxID/post-install-sudo.sh -P ~
     sleep 1s
     chmod +x $FILESUDO
 done
 while [ ! -x "$FILEUSER" ]; do
     rm $FILEUSER
-    wget https://www.dropbox.com/s/7q3ql3dx2o1avse/post-install-user.sh -P ~
+    wget https://www.dropbox.com/s/mydropboxID/post-install-user.sh -P ~
     sleep 1s
     chmod +x $FILEUSER
 done
