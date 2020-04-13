@@ -2,7 +2,7 @@
 # Opérations : post installation pour Ubuntu Mate & Xubuntu
 # À exécuter avec: pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY bash /chemin/script.sh
 # Philippe734 - 2019
-# Récupérer ce script: wget https://www.dropbox.com/s/mzaqopg7q66qhtx/post-install-sudo.sh -P ~
+# Récupérer ce script: wget https://www.dropbox.com/s/mydropboxID/post-install-sudo.sh -P ~
 # Ce script est uniquement avec SUDO
 # Pour actions sans sudo > utiliser le script post-install-user.sh
 
