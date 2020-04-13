@@ -1,7 +1,7 @@
 #!/bin/bash
 # Opérations : post installation pour Ubuntu Mate & Xubuntu
 # Philippe734 - 2019
-# Récupérer ce script: wget https://www.dropbox.com/s/7q3ql3dx2o1avse/post-install-user.sh -P ~
+# Récupérer ce script: wget https://www.dropbox.com/s/mydropboxID/post-install-user.sh -P ~
 # Ce script est uniquement sans sudo
 # Fonctions avec sudo > utiliser le script post-install-sudo.sh
 
