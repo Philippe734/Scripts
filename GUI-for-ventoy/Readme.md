@@ -6,7 +6,7 @@ https://github.com/ventoy/Ventoy
 
 Here is a GUI, a front end, for ventoy script.
 
-Need yad: `sudo apt install yad`
+It need yad: `sudo apt install yad`
 
 Select the USB stick, and let the program install ventoy to it.
 Then, copy poste some ISO files to the USB stick.
