@@ -9,7 +9,7 @@ Here is a GUI, a front end, for ventoy script.
 It need yad: `sudo apt install yad`
 
 Select the USB stick, and let the program install ventoy to it.
-Then, copy poste some ISO files to the USB stick.
+Then, copy paste some ISO files to the USB stick.
 
 If you want to prevent the sudo password prompt, then use the sudoers method.
 
