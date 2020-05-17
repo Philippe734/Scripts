@@ -35,7 +35,18 @@ fi
 yad --center  --image="dialog-warning" --window-icon="drive-removable-media-usb-pendrive" --title="Attention" --button=No:0 --button=Yes:1 --text="Are you sure to erase this device?\n$_media" --fixed --width=300 --height=70
 
 if [ $? = 1 ]; then
-    xterm -e "sudo $_ventoyscript -I /dev/$_drive"    
+    xterm -e "sudo $_ventoyscript -I /dev/$_drive"
+    
+    # If you want to replace the original ventoy background by mine (title= Select distro), uncomment these:
+    #sleep 1
+    #udisksctl mount -b /dev/"$_drive"2
+    #sleep 1
+    #_mountpoint=$(findmnt -n -o TARGET --source /dev/"$_drive"2)
+    #_backgroundpath="$_mountpoint/grub/themes/ventoy/background.png"
+    #cp -f "/path/to/new/background.png" "$_backgroundpath"
+    #sleep 1
+    #umount "$_mountpoint"
+    
     # Rename the first partition
     sudo exfatlabel /dev/"$_drive"1 "$_name"
     sleep 1
