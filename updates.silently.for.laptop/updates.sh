@@ -3,7 +3,6 @@
 # Opération 1 : avertir l'utilisateur si fin de support Ubuntu
 # Opération 2 : répare, nettoie et met à jour
 # Philippe734 - 2019
-# Lien vers la version dynamiquement mise à jour de ce script : https://bit.ly/2sY7MiX
 # 1. Créer ce script avec sudo : sudo nano /opt/updates.sh
 # 2. Copier-coller le contenu
 # 3. Rendre exécutable le script : sudo chmod +x /opt/updates.sh
@@ -16,13 +15,13 @@
 # >>> Partie 1 : alerte si fin de support LTS <<<
 #
 # Récupère la version majeure
-laversion=$(lsb_release -rs)
-Major=$(echo $laversion | cut -d'.' -f 1)
+laversion=$(lsb_release -rs)              # ex: 20.04
+Major=$(echo $laversion | cut -d'.' -f 1) # ex: 20
 
-# Ajoute 3 ans à la version pour savoir si périmé (durée support de LTS Mate/Xubuntu/Lubuntu)
-endsupport=$(($Major+2003))
-aujourdhui=$(date +%s)
-cond=$(date -d $endsupport-03-01 +%s)
+# Convaincre l'utilisateur de mettre à niveau vers la dernière LTS tous les 2 ans
+endsupport=$(($Major+2002))           # ex: 20+2002=2022
+aujourdhui=$(date +%s)                # date en seconde
+cond=$(date -d $endsupport-09-01 +%s) # date en seconde
 
 if [ $aujourdhui -ge $cond ];then
     if [ "$DESKTOP_SESSION" == "mate" ];then
@@ -32,8 +31,8 @@ if [ $aujourdhui -ge $cond ];then
     else
         variante="Ubuntu"
     fi
-	# Informe l'uilisateur qu'Ubuntu est obsolète
-	yad --center --title=Information --image=dialog-information --text-align=left --fixed --button=OK --text="Attention\n\nVotre système Linux $variante $laversion est obsolète et périmé.\n\nIl n'y a plus de mises à jour de sécurité et vos applications ne seront plus mises à jour.\n\nVeuillez contacter votre responsable informatique, ou un geek, pour mettre à niveau vers la dernière version LTS de $variante."
+    # Affiche la mise à niveau LTS à faire
+    flagLTS="true"
 fi
 
 
@@ -42,9 +41,10 @@ fi
 #
 # /!\ Opérations systèmes d'Ubuntu à 5 min puis à 10 min, donc éviter ces créneaux.
 # Définir une durée suffisante pour avoir assez de batterie
-sleep 9m
+sleep 45m
 
 # Récupère si machine sur secteur ou sur batterie
+# BAT0 ok for Mate 16.04, 18.04 & 20.04
 level=$(cat /sys/class/power_supply/BAT0/capacity)
 
 # Récupère le niveau de batterie
@@ -58,9 +58,9 @@ if [ "${status}" != "Discharging" ]; then
  echo "machine sur secteur : OK"
  flag="true"
 else
- if [ "${level}" -ge 80 ]; then
+ if [ "${level}" -ge 86 ]; then
   flag="true"
-  echo "machine sur batterie > 80% : OK"
+  echo "machine sur batterie > 86% : OK"
  else
   flag="false"
   echo "batterie trop faible : abandon"
@@ -73,7 +73,7 @@ if [ "$flag" == "false" ]; then
  exit 0
 fi
 
-MSG="Mises à jour en cours..."
+MSG="Mise à jour en cours..."
 
 doupdate () { (sudo apt update ; sudo apt full-upgrade -y ; sudo apt install -fy ; sudo apt autoclean ; sudo apt autoremove --purge -y) > /dev/null; quit ; }
 
@@ -81,5 +81,10 @@ doupdate | yad --notification --no-middle --text="$MSG" --image="system-software
 
 # sortir cette commande pour contourner un retour bloqué
 sudo dpkg --configure -a
+
+# Affiche la mise à niveau LTS
+if [ "$flagLTS" == "true" ]; then
+  update-manager -c & sleep 20s ; notify-send "Veuillez faire la MISE à NIVEAU" "branchez l'alimentation et prévoir 20 min." -t 30000
+fi
 
 exit 0
