@@ -2,17 +2,13 @@
 # Opérations : post installation pour Ubuntu Mate & Xubuntu
 # À exécuter avec: pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY bash /chemin/script.sh
 # Philippe734 - 2019
-# Récupérer ce script: wget https://www.dropbox.com/s/mydropboxID/post-install-sudo.sh -P ~
 # Ce script est uniquement avec SUDO
 # Pour actions sans sudo > utiliser le script post-install-user.sh
 
-# pour tester :
-
-#echo "Test terminé"
-#exit 0
+(
+sudo apt update
 
 # Choix des paramètres
-(
 while [ $(dpkg-query -W -f='${Status}' yad 2>/dev/null | grep -c "ok installed") == "0" ]; do
     sudo apt install yad -y
     sleep 1s
@@ -56,13 +52,20 @@ false "34. Modifier variante Lisez-moi" \
 false "35. Indicateurs batterie" \
 false "36. Ajouter Dock panel" \
 false "37. Sync heure windows" \
-false "37. Notif coco bas droite" \
+false "38. Notif coco bas droite" \
+false "39. Gnome Dash to panel" \
+false "40. Gnome Arc Menu" \
+false "41. Désactiver mdp fin veille" \
+false "42. Plymouth" \
+false "43. Date & heure" \
+false "46. Aspect Pluma" \
 false "99. Remove scripts files" \
-false "15. Corriger Grub EFI" ) &
+false "45. Corriger Grub EFI" ) &
 
-parametres=$(yad --fixed --width=300 --button="OK" --title="Paramètres" --height=300 --center --list --text="" --checklist --separator=":" --column="Cocher" --column="Options" false "Dual-boot Windows" false "PPA LibreOffice")
+parametres=$(yad --fixed --width=300 --button="OK" --title="Paramètres" --height=300 --center --list --text="" --checklist --separator=":" --column="Cocher" --column="Options" false "Dual-boot Windows" false "PPA LibreOffice" false "Lutris wine")
 
 (
+# Désactive le rapport de crash
 echo "10" ; sleep 0.3
 echo "# Configuration du système en cours... (disable apport)"
 sudo rm /var/crash/*
@@ -80,22 +83,21 @@ else
     variante="Ubuntu $vers"
 fi
 
-# modif swap qd 5% ram restante
+# Modif swap qd 5% ram restante
 echo vm.swappiness=5 | sudo tee /etc/sysctl.conf
 
-# désactive les mises à jour backports
+# Désactive les mises à jour backports
 sudo sed -i '/-backports/{s/^/# /}' /etc/apt/sources.list
 
-# Besoin PPA LibreOffice
+# LibreOffice PPA et thème
 if [[ $parametres == *"PPA"* ]];then
     sudo add-apt-repository ppa:libreoffice/ppa -y
 fi
 
 echo "# Configuration du système en cours... (apt update)"
-sudo apt update
 echo "20" ; sleep 0.3
 
-# Besoin Grub
+# Grub optimisé
 echo "# Configuration du système en cours... (theme grub)"
 wget https://github.com/Philippe734/poly-light-grub2-theme/archive/master.zip ; sleep 1s
 echo "22" ; sleep 0.3
@@ -123,11 +125,12 @@ echo "# Configuration du système en cours... (update grub)"
 sudo update-grub
 echo "30" ; sleep 0.3
 
+# Mises à jour silencieuses
 echo "# Configuration du système en cours... (updates.sh)"
 FILE=~/updates.sh
 while [ ! -x "$FILE" ]; do
     rm $FILE
-    wget https://www.dropbox.com/s/fyvv6mpk54uivl6/updates.sh -P ~
+    #wget .../updates.txt -O $FILE
     sleep 1s
     chmod +x $FILE
 done
@@ -135,11 +138,13 @@ sudo mv $FILE /opt/updates.sh
 echo 'utilisateur ALL=NOPASSWD: /opt/updates.sh' | sudo EDITOR='tee -a' visudo -f /etc/sudoers.d/custom
 echo "40" ; sleep 0.3
 
+# Applis en +
 echo "# Configuration du système en cours... (applis en +)"
-sudo apt install git gthumb gnome-software yad -y
+sudo apt-get install git mate-dock-applet gthumb gnome-software thunderbird 'plymouth-theme*' -y
+sudo apt remove evolution -y
 echo "42" ; sleep 0.3
 
-# installation du thème Materia
+# Thème Materia
 echo "# Configuration du système en cours... (thème)"
 wget https://github.com/nana-4/materia-theme/archive/v20190315.tar.gz -P ~
 cd ~
@@ -151,6 +156,14 @@ rm -rf /tmp/materia-theme-20190315
 rm v20190315.tar.gz
 echo "50" ; sleep 0.3
 
+# Appli de dépannage
+echo "# Configuration du système en cours... (dw)"
+wget https://www.dwservice.net/download/dwagent_x86.sh -P /opt
+sleep 1s
+chmod +x /opt/dwagent_x86.sh
+echo "50" ; sleep 0.3
+
+# Icones Flat Remix
 echo "# Configuration du système en cours... (icones en +)"
 wget https://launchpad.net/~noobslab/+archive/ubuntu/icons/+files/flat-remix-icons_1.58r1~bionic~NoobsLab.com_all.deb -P ~ ; sleep 2s
 echo "60" ; sleep 0.3
@@ -162,22 +175,18 @@ rm flat-remix-icons_1.58r1~bionic~NoobsLab.com_all.deb
 # Besoin wine
 if [[ $parametres == *"wine"* ]];then
     echo "# Configuration du système en cours... (wine)"
-    sudo dpkg --add-architecture i386
-    wget -nc https://dl.winehq.org/wine-builds/winehq.key
-    echo "72" ; sleep 0.3
-    sudo apt-key add winehq.key
-    sudo apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
-    sudo apt update
     echo "74" ; sleep 0.3
-    while [ $(dpkg-query -W -f='${Status}' winehq-staging 2>/dev/null | grep -c "ok installed") == "0" ]; do
-        sudo apt install --install-recommends winehq-staging -y
-        sleep 1s
-    done
+    sudo add-apt-repository ppa:lutris-team/lutris -y
+    sudo apt update
+    sudo apt install lutris -y
+    sleep 1s
 fi
 echo "80" ; sleep 0.3
 
-echo "# Terminé."
-echo "99" ; sleep 10m
+echo "# Terminé"
+echo "99" ; sleep 1m
 ) | yad --progress --title="Information" --width=400 --height=50 --no-buttons --center --fixed
+
+xterm -e "read -ep 'Press enter to select plymouth theme #9...' attends && sudo update-alternatives --config default.plymouth && sudo update-initramfs -u"
 
 # ne pas terminer avec exit 0
