@@ -5,7 +5,7 @@ killProgramNameB="firefox"
 interface="org.freedesktop.NetworkManager.VPN.Connection"
 member="VpnStateChanged"
 logPath="/tmp/vpndemon"
-header="VPNDemon\nProtection contre déconnexion VPN\n\n"
+header="VPN\n"
 
 # Clear log file.
 > "$logPath"
@@ -25,7 +25,7 @@ list_descendants()
 # Consider the first argument as the target process
 if [ -z "$killProgramName" ]
 then
-    killProgramName=$(zenity --entry --title="VPNDemon" --text="$header Enter name of process to kill when VPN disconnects:")
+    killProgramName=$(zenity --entry --title="VPN" --text="$header Enter name of process to kill when VPN disconnects:")
 fi
 
 result=$?
@@ -33,11 +33,11 @@ if [ $result = 0 ]
 then
     if [ $killProgramName ]
     then
-        header="$header Cibles : $killProgramName + $killProgramNameB\n\n"
+        header="$killProgramName ; $killProgramNameB ; wine"
 
         (tail -f "$logPath") |
         {
-            zenity --progress --title="VPNDemon" --text="$header Surveillance du VPN"
+            yad --progress --title="VPN" --text="$header" --progress-text="" --fixed --geometry +0+9999 --button="Déconnecter" --window-icon='/home/home/Documents/ScriptsLinux/VPN/icon wall-bricks-512.png'
 
             # Kill all child processes upon exit.
             kill $(list_descendants $$)
@@ -55,7 +55,7 @@ then
                     if [ x"$(echo "$line" | grep 'uint32 3')" != x ]
                     then
                         echo "VPN Connected $currentDate"
-                        echo "# $header VPN Connecté $currentDate" >> "$logPath"
+                        echo "# Connecté $currentDate" >> "$logPath"
                     fi
 
                     # Check if this a VPN disconnected (uint32 7) event.
@@ -63,7 +63,7 @@ then
                     then
                         echo "VPN Disconnected $currentDate"
 						notify-send "Déconnexion du VPN" "Reconnexion en cours..."
-                        echo "# $header VPN Déconnecté $currentDate" >> "$logPath"
+                        echo "# Déconnecté $currentDate" >> "$logPath"
 
                         # Kill target process.
 						pkill $killProgramName
@@ -72,6 +72,7 @@ then
 						pkill $killProgramNameB
 						pkill $killProgramNameB
 						pkill $killProgramNameB
+						wineserver -k
                     fi
                 done)
             }
@@ -81,5 +82,4 @@ then
     fi
 fi
 echo "Déconnecter VPN"
-exec /ThePathTo/DecoVPN.sh &
-
+exec /opt/scripts/VPN/DecoVPN.sh &
