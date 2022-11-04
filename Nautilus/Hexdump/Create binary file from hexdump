@@ -1,0 +1,5 @@
+#!/bin/bash
+notify-send "Binary in progress..." "$@"
+xxd -r -p "$@"  "$@.bin"
+notify-send "Over" "$@"
+
