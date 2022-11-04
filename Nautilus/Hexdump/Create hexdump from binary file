@@ -1,5 +1,4 @@
 #!/bin/bash
 notify-send "Hexdump in progress..." "$@"
 hexdump -ve '16/1 "%02x " "\n"' "$@" > "$@.hex"
-notify-send "Over" "$@"
-
+notify-send "Done" "$@"
