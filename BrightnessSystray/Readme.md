@@ -2,4 +2,4 @@
 
 Require yad: `sudo apt install yad`
 
-![screenshot1 Linux](https://raw.githubusercontent.com/Philippe734/Snippets/master/BrightnessSystray/screenshot.png)
+![screenshot1 Linux](https://raw.githubusercontent.com/Philippe734/Snippets/master/BrightnessSystray/scr.png)
