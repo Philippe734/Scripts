@@ -1,27 +1,27 @@
 #!/bin/bash
-# Mises à jour automatiques et silencieuses pour desktop et laptop
-# Opération 1 : avertir l'utilisateur si fin de support Ubuntu
-# Opération 2 : répare, nettoie et met à jour
+# Automatically updates silently
+# Operation 1 : alert user if end Ubuntu's support
+# Operation 2 : update, repair, clean
 # Philippe734 - 2019
-# 1. Créer ce script avec sudo : sudo nano /opt/updates.sh
-# 2. Copier-coller le contenu
-# 3. Rendre exécutable le script : sudo chmod +x /opt/updates.sh
+# 1. Create this script with sudo: sudo nano /opt/updates.sh
+# 2. Copy past inside
+# 3. Allow to be executed: sudo chmod +x /opt/updates.sh
 # 4. sudo visudo -f /etc/sudoers.d/custom
 # 5. UserName ALL=NOPASSWD: /opt/updates.sh
-# 6. Installer yad : sudo apt install yad -y
-# 7. Exécuter avec > sudo < le script au démarrage d'Ubuntu
+# 6. Install yad: sudo apt install yad -y
+# 7. Start with sudo in start apps of Ubuntu
 
 #
-# >>> Partie 1 : alerte si fin de support LTS <<<
+# >>> Part 1 : end of support LTS <<<
 #
-# Récupère la version majeure
+# Get major release
 laversion=$(lsb_release -rs)              # ex: 20.04
 Major=$(echo $laversion | cut -d'.' -f 1) # ex: 20
 
-# Convaincre l'utilisateur de mettre à niveau vers la dernière LTS tous les 2 ans
+# Force user to do the upgrade to the last LTS each 2 years
 endsupport=$(($Major+2002))           # ex: 20+2002=2022
-aujourdhui=$(date +%s)                # date en seconde
-cond=$(date -d $endsupport-09-01 +%s) # date en seconde
+aujourdhui=$(date +%s)                # date second
+cond=$(date -d $endsupport-09-01 +%s) # date second
 
 if [ $aujourdhui -ge $cond ];then
     if [ "$DESKTOP_SESSION" == "mate" ];then
@@ -37,54 +37,56 @@ fi
 
 
 #
-# >>> Partie 2 : mises à jour silencieues <<<
+# >>> Part 2 : silently update <<<
 #
-# /!\ Opérations systèmes d'Ubuntu à 5 min puis à 10 min, donc éviter ces créneaux.
-# Définir une durée suffisante pour avoir assez de batterie
-sleep 45m
+sleep 15m
 
-# Récupère si machine sur secteur ou sur batterie
-# BAT0 ok for Mate 16.04, 18.04 & 20.04
+notify-send "Update" "in progress..."
+
+# Get state battery
+# BAT0 ok for Mate 16.04, 18.04, 20.04, 22.04
 level=$(cat /sys/class/power_supply/BAT0/capacity)
 
-# Récupère le niveau de batterie
+# Get battery status
 status=$(cat /sys/class/power_supply/BAT0/status)
 
-# Indicateur d'abandon
+# Give up flag
 flag="true"
 
-# Mises à jour si batterie forte ou sur secteur
+# Update if AC or enough battery
 if [ "${status}" != "Discharging" ]; then
- echo "machine sur secteur : OK"
+ echo "AC : OK"
  flag="true"
 else
  if [ "${level}" -ge 86 ]; then
   flag="true"
-  echo "machine sur batterie > 86% : OK"
+  echo "battery > 86% : OK"
  else
   flag="false"
-  echo "batterie trop faible : abandon"
+  echo "battery too low : giveup"
  fi
 fi
 
-# Test d'abandon
+# test giveup
 if [ "$flag" == "false" ]; then
- echo "abandon"
+ echo "giveup"
  exit 0
 fi
 
-MSG="Mise à jour en cours..."
+MSG="Update in progress..."
 
 doupdate () { (sudo apt update ; sudo apt full-upgrade -y ; sudo apt install -fy ; sudo apt autoclean ; sudo apt autoremove --purge -y) > /dev/null; quit ; }
 
 doupdate | yad --notification --no-middle --text="$MSG" --image="system-software-update" --command="yad --center --title=Information --image=dialog-information --text=\"$MSG\" --text-align=left --fixed --button=OK" --listen
 
-# sortir cette commande pour contourner un retour bloqué
+# exit this command to avoid block
 sudo dpkg --configure -a
 
-# Affiche la mise à niveau LTS
+notify-send "Done" "updates OK"
+
+# Show the update to the last LTS
 if [ "$flagLTS" == "true" ]; then
-  update-manager -c & sleep 20s ; notify-send "Veuillez faire la MISE à NIVEAU" "branchez l'alimentation et prévoir 20 min." -t 30000
+  update-manager -c & sleep 20s ; notify-send "Do the upgrade" "connect the power supply and allow 60 min." -t 30000
 fi
 
 exit 0
