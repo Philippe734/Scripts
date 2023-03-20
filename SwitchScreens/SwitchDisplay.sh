@@ -5,6 +5,9 @@ get_active_monitors()
     xrandr | awk '/\ connected/ && /[[:digit:]]x[[:digit:]].*+/{print $1}'
 }
 
+monitor="eDP-1"
+TV="HDMI-1"
+
 # Number of display connected
 NumberDisplay=$(xrandr | grep " connected"  | grep "" -c)
 if [ $NumberDisplay -lt 2 ]; then
@@ -17,17 +20,17 @@ DisplayActive=$(get_active_monitors)
 echo "Display active : $DisplayActive"
 
 case "$DisplayActive" in
-    eDP-1) notify-send "Clone"
+    "$monitor") notify-send "Clone"
         echo "set to clone"
-        xrandr --output eDP-1 --output HDMI-2 --mode 1920x1080 ;;
-    HDMI-2) notify-send "Monitor"
+        xrandr --output "$monitor" --output "$TV" --mode 1920x1080 ;;
+    "$TV") notify-send "Monitor"
         echo "set to monitor"
-        xrandr --output eDP-1 --mode 1920x1080 --output HDMI-2 --off ;;
+        xrandr --output "$monitor" --mode 1920x1080 --output "$TV" --off ;;
     *) notify-send "TV"
         echo "set to TV"
-        xrandr --output HDMI-2 --mode 1920x1080
+        xrandr --output "$TV" --mode 1920x1080
         sleep 1s
-        xrandr --output eDP-1 --off ;;
+        xrandr --output "$monitor" --off ;;
 esac
 
 exit 0
