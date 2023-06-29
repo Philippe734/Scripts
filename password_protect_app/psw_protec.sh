@@ -1,23 +1,28 @@
 #!/bin/bash
 
-# password protection for application
-# ask your password then run your application
-# require: yad
-# sudo apt install yad
+# Simple password protection for application
+# 2023 - Philippe734
+# It ask password then run application
 #
-# before to use the script, use these commands to get your password in hexadecimal
-# and get the full path of your application, coded in base64
+# Require yad:
+# $ sudo apt install yad
+#
+# Before use it, use these command to get the full path of your application, encrypted and coded in base64, with your password:
+# $ echo -n "/Path/To/Your/Application" | openssl enc -aes256 -a -pbkdf2
 
 function main
 {
-password=$(yad --text-align=center --text="Mot de passe" --entry --entry-text="" --hide-text --fixed --title="" --button=OK)
+password=$(yad --text-align=center --text="Password" --entry --entry-text="" --hide-text --fixed --title="" --button=OK)
 
-b=$(echo -n "$password" | od -A n -t x1 | sed 's/ *//g')
+data="xxx" # replace xxx with the full path of your application, encrypted and coded in base64
 
-if [[ "$b" == 0123abcde ]] # replace it with your password in hexadecimal
+MyApp=$(echo "$data" | openssl enc -aes256 -d -a -pbkdf2 -pass pass:"$password")
+$password=""
+
+# test if file exist
+if [ -a $MyApp ]
 then
-    f=$(echo -n 'nkmlfu156g4sf8d6' | base64 --decode) # replace it with the full path of your application, coded in base64
-    $f # run your application
+    $MyApp # run your application
     exit 0
 else
     notify-send "Wrong password" "Try $x/3"
