@@ -4,6 +4,8 @@
 
 Prompt for password then run app. Require yad: `sudo apt install yad`
 
+It use openssl to encrypt and code in base64 the full path of your application with your password. Script store the hash encrypted of the full path app.
+
 Before use it, hide the application's file in your system, then use these commands to get the full path of your application, encrypted and coded in base64, with your password:
 ```
 password=$(yad --text-align=center --text="Password" --entry --entry-text="" --hide-text --fixed --title="" --button=OK)
