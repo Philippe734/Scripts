@@ -25,7 +25,6 @@ select_audio_sink() {
     menu_items=$(prepare_menu_items)
     selected_sink=$(yad --notification --text="Select audio output" --image="audio-speakers" --menu="$menu_items" --command="" --no-middle &
     YAD_PID=$!
-    echo $YAD_PID > /tmp/choixsortieaudioyad_pid
     )   
 }
 
