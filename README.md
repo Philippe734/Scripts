@@ -36,3 +36,6 @@ Script for gThumb, GUI tool to send by mail picture : small, medium or original 
 
 ### Set brightness in systray
 Icon in notification area, to set brightness
+
+### Output sound switcher
+Icon in notification area, to switch output audio
