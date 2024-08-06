@@ -2,6 +2,8 @@
 # étape 1 : récupérer le UUI du vpn : nmcli con
 # étape 2 : saisir le UUI dans ce script, DecoVPN.sh et AutoDeco3h.sh
 
+echo $$ > /home/username/Documents/Scripts/VPN/mainPID
+
 TargetProgramName="qbittorrent"
 
 VPNUUID="..." # UUI pour torrent
