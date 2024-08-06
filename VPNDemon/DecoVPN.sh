@@ -6,7 +6,8 @@ pkill $KillProgName
 pkill $KillProgName
 sleep 1
 #notify-send "Déconnexion..."
-pkill AutorecoVPN.sh
+PID=$(cat /home/user/Documents/Scripts/VPN/mainPID)
+kill $PID
 pkill AutoDeco3h.sh
 sleep 1
 
