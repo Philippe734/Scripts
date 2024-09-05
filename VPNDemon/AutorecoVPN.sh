@@ -1,6 +1,6 @@
 #!/bin/bash
 # étape 1 : récupérer le UUI du vpn : nmcli con
-# étape 2 : saisir le UUI dans ce script, DecoVPN.sh et AutoDeco3h.sh
+# étape 2 : saisir le UUI dans ce script, DecoVPN.sh
 
 echo $$ > /home/username/Documents/Scripts/VPN/mainPID
 
@@ -14,10 +14,7 @@ nmcli con down uuid "$VPNFRANCE" # UUI VPN France
 sleep 500ms
 
 # Activer le monitoring
-exec /opt/scripts/VPN/vpndemon.sh &
-
-# Autodéco périodiquement
-exec /opt/scripts/VPN/AutoDeco3h.sh &
+exec /home/username/Documents/Scripts/VPN/vpndemon.sh &
 
 while [ "true" ]
 do
@@ -25,6 +22,7 @@ do
 	if [ -z "$VPNCON" ]; then
 		echo "VPN déconnecté"
 		(sleep 1s && nmcli con up uuid "$VPNUUID") 
+  		notify-send $(nmcli -g name,type con show --active | grep vpn)		
 		FLAGRECO="vrai"
 	else
 		if [[ $FLAGRECO = "vrai" ]]; then
