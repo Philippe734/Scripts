@@ -82,4 +82,4 @@ then
     fi
 fi
 echo "Déconnecter VPN"
-exec /opt/scripts/VPN/DecoVPN.sh &
+exec /home/username/Documents/Scripts/VPN/DecoVPN.sh &
