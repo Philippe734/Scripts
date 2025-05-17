@@ -16,9 +16,6 @@ Alert the user when Ubuntu is at the end of support, with a message, in order to
 ### GUI tool to format usb device
 Using yad to display the gui.
 
-### Benchmark overall
-Script to benchmark the system and calculate a single overall score, without prompt the user, using Sysbench (CPU, Disk IO & Memory).
-
 ### Format USB
 GUI tool to format USB device, usefull for very old persons or kids.
 
