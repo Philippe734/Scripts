@@ -1,0 +1,20 @@
+
+# Commandes pour mettre à jour le kernel mainline
+# Ouvrir un terminal et exécuter :
+
+echo -e ">>> Installation du Kernel mainline\nCheck ubuntu-mainline-kernel.sh -r 6.14..."
+latest_614=$(ubuntu-mainline-kernel.sh -r 6.14 | grep -o 'v6\.14\.[0-9]\+' | sed 's/v//' | sort -V | tail -n1)
+echo $latest_614
+echo -e "\nOK pour installer le kernel $latest_614 ?"
+read
+sudo ubuntu-mainline-kernel.sh -i $latest_614
+kernel_version=$(ls /lib/modules | sort -V | tail -n1)
+echo $kernel_version
+echo -e "\nOK pour update initramfs $kernel_version ?"
+read
+sudo update-initramfs -u -k $kernel_version
+sudo update-grub
+echo -e "\n****************************\nKernel changé, prêt pour redémarrer <<<"
+read
+reboot
+
